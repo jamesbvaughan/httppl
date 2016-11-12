@@ -28,15 +28,15 @@ construct_response(Body, Response) :-
 parse_request(Request, Path) :-
     atom_concat(RequestPrefix, RequestSuffix, Request),
     atom_concat('GET /', Path, RequestPrefix),
-    atom_concat(' HTTP', _, RequestSuffix).
+    atom_concat(' HTTP/', _, RequestSuffix).
 
 
 % reads in a request, character by character, from the client
 read_request(Stream, Request) :-
     read_request(Stream, '', Request).
 
-read_request(_, SoFar, SoFar) :-
-    atom_concat(_, '\r\n\r\n', SoFar).
+read_request(_, Request, Request) :-
+    atom_concat(_, '\r\n\r\n', Request).
 
 read_request(Stream, SoFar, Request) :-
     get_char(Stream, NextChar),
