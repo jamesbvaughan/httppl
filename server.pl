@@ -35,9 +35,6 @@ parse_request(Request, Path) :-
 read_request(Stream, Request) :-
     read_request(Stream, '', Request).
 
-% read_request(Stream, SoFar, SoFar) :-
-%     at_end_of_stream(Stream).
-
 read_request(_, SoFar, SoFar) :-
     atom_concat(_, '\r\n\r\n', SoFar).
 
