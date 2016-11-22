@@ -35,8 +35,10 @@ parse_request(Request, Path) :-
 read_request(Stream, Request) :-
     read_request(Stream, '', Request).
 
-read_request(_, Request, Request) :-
-    atom_concat(_, '\r\n\r\n', Request).
+% read_request(_, Request, Request) :-
+%     atom_concat(_, '\r\n\r\n', Request).
+read_request(_Stream, SoFar, Request) :-
+  atom_concat(Request, '\r\n\r\n', SoFar).
 
 read_request(Stream, SoFar, Request) :-
     get_char(Stream, NextChar),
@@ -53,7 +55,8 @@ read_file_helper(Stream, '') :-
     at_end_of_stream(Stream).
 
 read_file_helper(Stream, Contents) :-
-    \+ at_end_of_stream(Stream),
     get_char(Stream, Head),
     read_file_helper(Stream, Tail),
     atom_concat(Head, Tail, Contents).
+
+
